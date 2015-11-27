@@ -19,8 +19,12 @@ var util = require('util');
  * @param  {[type]} domElement [description]
  * @return {[type]}            [description]
  */
-module.exports = function CameraInteractivityWorld(domElement) {
+module.exports = function CameraInteractivityWorld(domElement, threeOverride) {
 	var _this2 = this;
+
+	var THREE_IN = threeOverride || THREE;
+
+	if (!THREE_IN) throw Error('No Three Library Detected');
 
 	function InteractivityTarget(node) {
 		var _this = this;
@@ -56,8 +60,8 @@ module.exports = function CameraInteractivityWorld(domElement) {
 
 	this.detectInteractions = function (camera) {
 
-		var raycaster = new THREE.Raycaster();
-		raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+		var raycaster = new THREE_IN.Raycaster();
+		raycaster.setFromCamera(new THREE_IN.Vector2(0, 0), camera);
 		var hits = raycaster.intersectObjects(Array.from(this.targets.values()).map(function (target) {
 			return target.object3d;
 		}).filter(function (object3d) {
